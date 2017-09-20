@@ -1,6 +1,73 @@
 <!doctype html>
 <meta charset="utf-8">
 <title>Sound.js</title>
+<script>
+/*
+keyboard
+--------
+
+This isn't really necessary - I just included it for fun to help with the
+examples in the `index.html` files.
+The `keyboard` helper function creates `key` objects
+that listen for keyboard events. Create a new key object like
+this:
+
+    var keyObject = g.keyboard(asciiKeyCodeNumber);
+
+Then assign `press` and `release` methods like this:
+
+    keyObject.press = function() {
+      //key object pressed
+    };
+    keyObject.release = function() {
+      //key object released
+    };
+
+Keyboard objects also have `isDown` and `isUp` Booleans that you can check.
+This is so much easier than having to write out tedious keyboard even capture
+code from scratch.
+
+Like I said, the `keyboard` function has nothing to do with generating sounds,
+so just delete it if you don't want it!
+*/
+
+function keyboard(keyCode) {
+  var key = {};
+  key.code = keyCode;
+  key.isDown = false;
+  key.isUp = true;
+  key.press = undefined;
+  key.release = undefined;
+  //The `downHandler`
+  key.downHandler = function(event) {
+    if (event.keyCode === key.code) {
+      if (key.isUp && key.press) key.press();
+      key.isDown = true;
+      key.isUp = false;
+    }
+    event.preventDefault();
+  };
+
+  //The `upHandler`
+  key.upHandler = function(event) {
+    if (event.keyCode === key.code) {
+      if (key.isDown && key.release) key.release();
+      key.isDown = false;
+      key.isUp = true;
+    }
+    event.preventDefault();
+  };
+
+  //Attach event listeners
+  window.addEventListener(
+    "keydown", key.downHandler.bind(key), false
+  );
+  window.addEventListener(
+    "keyup", key.upHandler.bind(key), false
+  );
+  return key;
+}
+</script>
 <script src="sound.js"></script>
 <body>
 <p>Press keyboard keys to control the sounds
@@ -18,9 +85,9 @@
 <br>
 <br>Generated sound effects
 <br>
-<br>i - Shoot 
+<br>i - Shoot
 <br>j - Jump
-<br>k - Explosion 
+<br>k - Explosion
 <br>l - Bonus
 </p>
 <script>
@@ -32,7 +99,7 @@ Part 1 - Working with sound files
 
 //Load the sounds
 sounds.load([
-  "sounds/shoot.wav", 
+  "sounds/shoot.wav",
   "sounds/music.wav",
   "sounds/bounce.mp3"
 ]);
@@ -59,7 +126,7 @@ function setup() {
   music.pan = -0.8;
 
   //Set the music volume
-  music.volume = 0.7;  
+  music.volume = 0.7;
 
   //Set a reverb effect on the bounce sound
   //arguments: duration, decay, reverse?
@@ -74,7 +141,7 @@ function setup() {
 
   //Set `echo` to false to turn it off
   //bounce.echo = false;
-  
+
   //Optionally set the music playback rate to half speed
   //music.playbackRate = 0.5;
 
@@ -101,13 +168,13 @@ function setup() {
     console.log("music playing");
   };
 
-  //Pause the music 
+  //Pause the music
   c.press = function() {
     music.pause();
     console.log("music paused");
   };
 
-  //Restart the music 
+  //Restart the music
   d.press = function() {
     music.restart();
     console.log("music restarted");
@@ -118,17 +185,17 @@ function setup() {
     music.playFrom(10);
     console.log("music start point changed");
   };
-  
+
   //Play the bounce sound
   f.press = function() { bounce.play() };
 
   //Fade the music out over 3 seconds
-  g.press = function() { 
+  g.press = function() {
     music.fadeOut(3);
   };
 
   //Fade the music in over 3 seconds
-  h.press = function() { 
+  h.press = function() {
     music.fadeIn(3);
   };
 }
@@ -216,6 +283,6 @@ function bonusSound() {
   //High D
   soundEffect(1174.66, 0, 0.3, "square", 1, 0, 0.2);
 }
-    
+
 </script>
 </body>

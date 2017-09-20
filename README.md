@@ -17,7 +17,7 @@ you can
 copy and paste whichever parts of them you need into your own
 projects. In fact, you can create all the sound an music for your
 project in less than
-150 lines of code by just using the `soundEffect` function on its own. 
+150 lines of code by just using the `soundEffect` function on its own.
 
 If you need it, there's also a `sounds` object with a helpful
 `load` method that makes it easy to load and access sound files.
@@ -33,6 +33,11 @@ Just link to the `sound.js` file with a `<script>` tag:
 ```
 <script src="sound.js"></script>
 ```
+
+Or via npm:
+```
+npm install sound.js --save
+```
 Or just copy/paste whichever functions you need from the `sound.js`
 file into your own project code.
 
@@ -45,7 +50,7 @@ method's array. Then assign a callback function to `sounds.whenLoaded`.
 ```
 //Load the sounds
 sounds.load([
-  "sounds/shoot.wav", 
+  "sounds/shoot.wav",
   "sounds/music.wav",
   "sounds/bounce.mp3"
 ]);
@@ -94,7 +99,7 @@ pan settings. You can also fade sounds in or out. Here's how:
   //Make the sound loop
   music.loop = true;
 
-  //Set the volume 
+  //Set the volume
   //1 is full volume, 2 is double volume, 0.5 is half volume, etc.
   music.volume = 0.7;  
 
@@ -150,7 +155,7 @@ bounce.echo = false;
 ### Add reverb
 
 Set a sound's reverb effect using `setReverb`. `setReverb` takes 3
-arguments: `duration`, `decay`, and `reverse`. 
+arguments: `duration`, `decay`, and `reverse`.
 ```
 music.setReverb(2, 2, false);
 ```
@@ -338,7 +343,7 @@ a simple music sequencer, and build your own mini-library of musical sound effec
 just for playing notes. If you need it, here's how to convert
 frequencies in Hertz to real note values:
 
-[Note values of frequencies in Hertz](http://www.phy.mtu.edu/~suits/notefreqs.html) 
+[Note values of frequencies in Hertz](http://www.phy.mtu.edu/~suits/notefreqs.html)
 
 Have fun!
 
@@ -375,7 +380,7 @@ that the file has finished decoding.
 If you're creating more than one sound like this, use counter variables to track the number of sounds
 you need to decode, and the number of sounds that have already been decoded. When both sets of counters are the
 same, you'll know that all your sound files have finished decoding and you can proceed with the rest
-of you application. 
+of you application.
 
 The [Hexi game engine](https://github.com/kittykatattack/hexi) uses `makeSound` in this way. Here's the code
 from Hexi's `core.js` file that uses this configuration. It's just
@@ -400,7 +405,7 @@ let soundExtensions = ["wav", "mp3", "ogg", "webm"];
 
 //The `decodeHandler` will run when each sound file is decoded
 let decodeHandler = () => {
-  
+
   //Count 1 more sound as having been decoded
   soundsDecoded += 1;
 
@@ -435,7 +440,7 @@ Object.keys(this.loader.resources).forEach(resource => {
     //sound's `xhr` object. Setting the 3rd argument to `false`
     //means that `makeSound` won't attempt to load the sounds
     //again. When the sound has been decoded, the `decodeHandler`
-    //(see above!) will be run 
+    //(see above!) will be run
     let soundSprite = makeSound(url, decodeHandler.bind(this), false, xhr);
 
     //Get the sound file name
@@ -456,4 +461,3 @@ if (soundsToDecode === 0) {
 If you need any help integrating `Sound.js` with your own custom file
 loading system, create a new issue in this GitHub repository and
 we'll do our best to help :)
-
